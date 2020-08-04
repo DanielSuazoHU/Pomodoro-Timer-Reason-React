@@ -4,12 +4,15 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var State$MyReactApp = require("./State.bs.js");
 var Timer$MyReactApp = require("./Timer.bs.js");
+var Header$MyReactApp = require("./Header.bs.js");
 var EditTime$MyReactApp = require("./EditTime.bs.js");
+var TimerActions$MyReactApp = require("./TimerActions.bs.js");
 
 function App(Props) {
   var match = React.useReducer(State$MyReactApp.reducer, State$MyReactApp.initialState);
-  var dispatch = match[1];
   var state = match[0];
+  var seconds = state.seconds;
+  var dispatch = match[1];
   React.useEffect((function () {
           var timer = setInterval((function (param) {
                   return Curry._1(dispatch, /* Tick */3);
@@ -19,25 +22,18 @@ function App(Props) {
                     
                   });
         }), []);
-  return React.createElement("div", undefined, React.createElement("button", {
-                  onClick: (function (param) {
-                      return Curry._1(dispatch, /* TogglePhase */4);
-                    })
-                }, "Switch timer"), React.createElement(Timer$MyReactApp.make, {
-                  seconds: state.seconds
-                }), React.createElement("button", {
-                  onClick: (function (param) {
-                      return Curry._1(dispatch, /* Stop */1);
-                    })
-                }, "Stop"), React.createElement("button", {
-                  onClick: (function (param) {
-                      return Curry._1(dispatch, /* Start */0);
-                    })
-                }, "Start"), React.createElement("button", {
-                  onClick: (function (param) {
-                      return Curry._1(dispatch, /* Reset */2);
-                    })
-                }, "Reset"), React.createElement(EditTime$MyReactApp.make, {
+  return React.createElement("div", {
+              className: "container"
+            }, React.createElement(Header$MyReactApp.make, {
+                  seconds: seconds,
+                  currentPhase: state.currentPhase,
+                  dispatch: dispatch
+                }), React.createElement(Timer$MyReactApp.make, {
+                  seconds: seconds
+                }), React.createElement(TimerActions$MyReactApp.make, {
+                  dispatch: dispatch,
+                  isTicking: state.isTicking
+                }), React.createElement(EditTime$MyReactApp.make, {
                   phase: "Work",
                   value: state.workTime,
                   onChange: (function (e) {
