@@ -10,10 +10,23 @@ let make = () => {
   });
 
   <div>
+    <button onClick={_ => dispatch(TogglePhase)}>
+      {React.string("Switch timer")}
+    </button>
     <Timer seconds={state.seconds} />
     <button onClick={_ => dispatch(Stop)} > {React.string("Stop")} </button>
     <button onClick={_ => dispatch(Start)}> {React.string("Start")} </button>
     <button onClick={_ => dispatch(Reset)}> {React.string("Reset")} </button>
+    <EditTime 
+      phase="Work" 
+      value={state.workTime}
+      onChange={e => dispatch(SetTime(Work, e))}
+    />
+    <EditTime 
+      phase="Play" 
+      value={state.playTime}
+      onChange={e => dispatch(SetTime(Play, e))}
+    />
   </div>
 
 }
