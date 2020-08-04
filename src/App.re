@@ -12,7 +12,12 @@ let make = () => {
 
   <div className="container">
     <Header seconds currentPhase dispatch/>
-    <Timer seconds />
+    <Timer seconds maxTime={
+      switch (currentPhase) {
+      | Work => state.workTime * 60
+      | Play => state.playTime * 60
+      };
+    } />
     <TimerActions dispatch isTicking />
     <EditTime 
       phase="Work" 
